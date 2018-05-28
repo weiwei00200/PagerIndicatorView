@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <declare-styleable name="PagerIndicatorView">
+        <attr name="PagerIndicatorView_isShowIndicator" format="boolean"/>
+        <attr name="PagerIndicatorView_indicatorSpace" format="dimension"/>
+        <attr name="PagerIndicatorView_indicatorSize" format="dimension"/>
+        <attr name="PagerIndicatorView_selectedPosition" format="integer"/>
+    </declare-styleable>
+
+</resources>

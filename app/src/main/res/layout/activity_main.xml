@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+
+    <com.sammie.pagerlib.SlidingViewPagerView
+        android:id="@+id/id_sliding_view_pager_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:PagerIndicatorView_isShowIndicator="true"
+        app:PagerIndicatorView_indicatorSpace="3dp"
+        app:PagerIndicatorView_indicatorSize="3dp"
+        app:PagerIndicatorView_selectedPosition = "0"/>
+</LinearLayout>
