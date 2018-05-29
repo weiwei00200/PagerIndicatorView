@@ -2,15 +2,30 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
+    android:orientation="vertical"
     android:layout_height="match_parent">
 
 
     <com.sammie.pagerlib.SlidingViewPagerView
-        android:id="@+id/id_sliding_view_pager_view"
+        android:id="@+id/id_local_sliding_view_pager_view"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        app:PagerIndicatorView_isShowIndicator="true"
-        app:PagerIndicatorView_indicatorSpace="3dp"
-        app:PagerIndicatorView_indicatorSize="3dp"
-        app:PagerIndicatorView_selectedPosition = "0"/>
+        android:layout_height="150dp"
+        app:isShowIndicator="true"
+        app:indicatorSpace="4dp"
+        app:indicatorSize="6dp"
+        app:indicatorMarginBottom = "4dp"
+        app:selectedPosition = "0"/>
+    <com.sammie.pagerlib.SlidingViewPagerView
+        android:id="@+id/id_remote_sliding_view_pager_view"
+        android:layout_width="match_parent"
+        android:layout_height="150dp"
+        app:isShowIndicator="true"
+        app:indicatorSpace="4dp"
+        app:slidingInterval="5"
+        app:slidingSpeed="200"
+        app:indicatorMarginBottom = "10dp"
+        app:indicatorGravity = "left"
+        app:indicatorSize="6dp"
+        app:isAutoSliding = "true"
+        app:selectedPosition = "0"/>
 </LinearLayout>

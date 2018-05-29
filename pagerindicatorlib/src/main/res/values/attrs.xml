@@ -2,10 +2,15 @@
 <resources>
 
     <declare-styleable name="PagerIndicatorView">
-        <attr name="PagerIndicatorView_isShowIndicator" format="boolean"/>
-        <attr name="PagerIndicatorView_indicatorSpace" format="dimension"/>
-        <attr name="PagerIndicatorView_indicatorSize" format="dimension"/>
-        <attr name="PagerIndicatorView_selectedPosition" format="integer"/>
+        <attr name="isAutoSliding" format="boolean"/>
+        <attr name="slidingInterval" format="integer"/>
+        <attr name="slidingSpeed" format="integer"/>
+        <attr name="isShowIndicator" format="boolean"/>
+        <attr name="indicatorSpace" format="dimension"/>
+        <attr name="indicatorSize" format="dimension"/>
+        <attr name="indicatorMarginBottom" format="dimension"/>
+        <attr name="selectedPosition" format="integer"/>
+        <attr name="indicatorGravity" format="string"/>
     </declare-styleable>
 
 </resources>

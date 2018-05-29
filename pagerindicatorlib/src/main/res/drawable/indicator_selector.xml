@@ -5,14 +5,12 @@
    <item android:state_selected="true">
        <shape android:shape="oval">
            <solid android:color="#666666"/>
-           <size android:width="6dp" android:height="6dp"/>
        </shape>
    </item>
     <item android:state_selected="false">
         <shape android:shape="oval">
             <solid android:color="#ffffff"/>
             <stroke android:width="0.5dp" android:color="#666666"/>
-            <size android:width="6dp" android:height="6dp"/>
         </shape>
     </item>
 </selector>
