@@ -33,8 +33,8 @@ dependencies {
     annotationProcessor 'com.github.bumptech.glide:compiler:4.6.1'
 }
 
-def siteUrl = 'https://github.com/weiwei00200/ViewPagerCommonView' // 项目的主页
-def gitUrl = 'https://github.com/weiwei00200/ViewPagerCommonView.git' // Git仓库的url
+def siteUrl = 'https://github.com/weiwei00200/PagerIndicatorView' // 项目的主页
+def gitUrl = 'https://github.com/weiwei00200/PagerIndicatorView.git' // Git仓库的url
 group = "com.sammie.pagerlib" // Maven Group ID for the artifact，一般填你唯一的包名
 install {
     repositories.mavenInstaller {
