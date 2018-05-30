@@ -7,7 +7,7 @@
 ### 使用方法
 
 ### 配置步骤1：
-    implementation 'com.github.weiwei00200:PagerIndicatorView:1.0.0'
+    implementation 'com.github.weiwei00200:PagerIndicatorView:1.1.0'
     
 ### 配置步骤2：
     allprojects {
@@ -40,23 +40,23 @@
 	urlImgList.add("https://b-ssl.duitang.com/uploads/item/201604/12/20160412094534_4VFKi.jpeg");
 	urlImgList.add("https://a-ssl.duitang.com/uploads/item/201604/12/20160412094520_c3fUC.thumb.700_0.jpeg");
 	urlImgList.add("https://b-ssl.duitang.com/uploads/item/201607/22/20160722103000_ewA8G.thumb.700_0.jpeg");
-	
+
 	//--------------准备数据-本地图片------------------
 	ArrayList<Integer> imgList = new ArrayList<>();
 	imgList .add(R.mipmap.pic_01);
 	imgList .add(R.mipmap.pic_02);
 	imgList .add(R.mipmap.pic_03);	
-	
+
 	//普通显示URL图片
 	remoteViewPagerView.setUrlImage(urlImgList,R.mipmap.ic_launcher,R.mipmap.ic_launcher);
-	
+
 	//可点击的URL图片
-        remoteViewPagerView.setUrlImage(urlImgList, toUrlList, R.mipmap.ic_launcher, R.mipmap.ic_launcher, new IPageClickListener() {
-            @Override
-            public void onClickPageImage(String url) {
-                //拿到 URL 做跳转动作
-            }
-        });
+	remoteViewPagerView.setUrlImage(urlImgList, toUrlList, R.mipmap.ic_launcher, R.mipmap.ic_launcher, new IPageClickListener() {
+	    @Override
+	    public void onClickPageImage(String url) {
+		//拿到 URL 做跳转动作
+	    }
+	});
 ### 控件提供方法说明：
 ##### 显示网络图片方法
 	setUrlImage(List<String> urlList, int loadingImgRes, int errorImgRes)
@@ -90,6 +90,5 @@ indicatorGravity|指示器在底部的显示位置 left，right，middle
 ### 版本：
 版本号     | 备注
 -------- | ---
-v1.0 | 1）支持自动滚动<br>2）支持本地图片，URL图片
- 
-
+v1.0.0 | 1）支持自动滚动<br>2）支持本地图片，URL图片
+v1.1.0 | 1）增加点击显示网络图片的Page，返回预设的URL，方便跳转
