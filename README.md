@@ -30,24 +30,51 @@
         app:selectedPosition = "0"
         android:layout_height="150dp"/>
         
-######  填充数据：
-	//--------------网络图片------------------
+###  填充数据：
+	//初始化控件
+	SlidingViewPagerView remoteViewPagerView = findViewById(R.id.id_remote_sliding_view_pager_view);
+
+	//--------------准备数据-网络图片------------------
 	ArrayList<String> imgList = new ArrayList<>();
 	urlImgList.add("https://b-ssl.duitang.com/uploads/item/201604/12/20160412094155_nAmci.thumb.700_0.jpeg");
 	urlImgList.add("https://b-ssl.duitang.com/uploads/item/201604/12/20160412094534_4VFKi.jpeg");
 	urlImgList.add("https://a-ssl.duitang.com/uploads/item/201604/12/20160412094520_c3fUC.thumb.700_0.jpeg");
 	urlImgList.add("https://b-ssl.duitang.com/uploads/item/201607/22/20160722103000_ewA8G.thumb.700_0.jpeg");
 	
-	//--------------本地图片------------------
-	//ArrayList<Integer> imgList = new ArrayList<>();
-	//imgList .add(R.mipmap.pic_01);
-	//imgList .add(R.mipmap.pic_02);
-	//imgList .add(R.mipmap.pic_03);	    
-
-	SlidingViewPagerView remoteViewPagerView = findViewById(R.id.id_remote_sliding_view_pager_view);
+	//--------------准备数据-本地图片------------------
+	ArrayList<Integer> imgList = new ArrayList<>();
+	imgList .add(R.mipmap.pic_01);
+	imgList .add(R.mipmap.pic_02);
+	imgList .add(R.mipmap.pic_03);	
+	
+	//普通显示URL图片
 	remoteViewPagerView.setUrlImage(urlImgList,R.mipmap.ic_launcher,R.mipmap.ic_launcher);
-    
-### 参数说明：（全部参数可选设置）
+	
+	//可点击的URL图片
+        remoteViewPagerView.setUrlImage(urlImgList, toUrlList, R.mipmap.ic_launcher, R.mipmap.ic_launcher, new IPageClickListener() {
+            @Override
+            public void onClickPageImage(String url) {
+                //拿到 URL 做跳转动作
+            }
+        });
+### 控件提供方法说明：
+##### 显示网络图片方法
+	setUrlImage(List<String> urlList, int loadingImgRes, int errorImgRes)
+	setUrlImage(List<String> urlList, List<String> toUrlList, int loadingImgRes, int errorImgRes, IPageClickListener listener)
+	
+	urlList：图片URL数组
+	toUrlList：跳转URL
+	loadingImgRes：加载中的显示的图片
+	errorImgRes：加载失败的显示的图片
+	listener：点击当前显示Page的URL
+##### 显示网络图片方法
+	setLocalImage(List<Integer> pagePicList, int loadingImgRes, int errorImgRes)
+	
+	pagePicList：本地图片资源数组（R.mipmap.pic...）
+	loadingImgRes：加载中的显示的图片
+	errorImgRes：加载失败的显示的图片
+	
+### 控件参数说明：（全部参数可选设置）
 参数     | 说明
 -------- | ---
 isAutoSliding | true,false 是否自动滚动。
