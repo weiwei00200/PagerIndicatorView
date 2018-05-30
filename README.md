@@ -96,5 +96,5 @@ v1.1.0 | 1）增加点击显示网络图片的Page，返回预设的URL，方便
 ### 嘿嘿嘿！！
 欢迎使用，欢迎打赏。您的打赏，是我前进的动力。您的使用，是我的荣幸。<br>
 主要是后面的版本会不断完善。<br>
-更多的公用库会持续加上。希望大家持续关注。<br>
+更多的公用库会持续加上。希望大家持续关注。<br><br>
 ![img](https://github.com/weiwei00200/PagerIndicatorView/blob/master/pic/pay.png)  
