@@ -3,15 +3,15 @@
  
 ### 使用方法
 ##### 步骤1：
-implementation 'com.github.weiwei00200:PagerIndicatorView:1.0.0'
+     implementation 'com.github.weiwei00200:PagerIndicatorView:1.0.0'
     
 ##### 步骤2：
-allprojects {
-   repositories {
-      maven { url "https://jitpack.io" }
-   }
-}
- 
+    allprojects {
+       repositories {
+          maven { url "https://jitpack.io" }
+       }
+    }
+
  
 版本号     | 备注
 -------- | ---
