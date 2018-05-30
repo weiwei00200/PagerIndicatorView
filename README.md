@@ -28,21 +28,21 @@
         android:layout_height="150dp"/>
         
 ######  填充数据：
-		//--------------网络图片------------------
-	    ArrayList<String> imgList = new ArrayList<>();
-	    urlImgList.add("https://b-ssl.duitang.com/uploads/item/201604/12/20160412094155_nAmci.thumb.700_0.jpeg");
-	    urlImgList.add("https://b-ssl.duitang.com/uploads/item/201604/12/20160412094534_4VFKi.jpeg");
-	    urlImgList.add("https://a-ssl.duitang.com/uploads/item/201604/12/20160412094520_c3fUC.thumb.700_0.jpeg");
-	    urlImgList.add("https://b-ssl.duitang.com/uploads/item/201607/22/20160722103000_ewA8G.thumb.700_0.jpeg");
-		//--------------本地图片------------------
-		//ArrayList<Integer> imgList = new ArrayList<>();
-		//imgList .add(R.mipmap.pic_01);
-        //imgList .add(R.mipmap.pic_02);
-        //imgList .add(R.mipmap.pic_03);	    
+	//--------------网络图片------------------
+	ArrayList<String> imgList = new ArrayList<>();
+	urlImgList.add("https://b-ssl.duitang.com/uploads/item/201604/12/20160412094155_nAmci.thumb.700_0.jpeg");
+	urlImgList.add("https://b-ssl.duitang.com/uploads/item/201604/12/20160412094534_4VFKi.jpeg");
+	urlImgList.add("https://a-ssl.duitang.com/uploads/item/201604/12/20160412094520_c3fUC.thumb.700_0.jpeg");
+	urlImgList.add("https://b-ssl.duitang.com/uploads/item/201607/22/20160722103000_ewA8G.thumb.700_0.jpeg");
+	
+	//--------------本地图片------------------
+	//ArrayList<Integer> imgList = new ArrayList<>();
+	//imgList .add(R.mipmap.pic_01);
+	//imgList .add(R.mipmap.pic_02);
+	//imgList .add(R.mipmap.pic_03);	    
 
-
-	    SlidingViewPagerView remoteViewPagerView = findViewById(R.id.id_remote_sliding_view_pager_view);
-	    remoteViewPagerView.setUrlImage(urlImgList,R.mipmap.ic_launcher,R.mipmap.ic_launcher);
+	SlidingViewPagerView remoteViewPagerView = findViewById(R.id.id_remote_sliding_view_pager_view);
+	remoteViewPagerView.setUrlImage(urlImgList,R.mipmap.ic_launcher,R.mipmap.ic_launcher);
     
 ### 参数说明：（全部参数可选设置）
 参数     | 说明
