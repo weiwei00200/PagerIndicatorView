@@ -2,7 +2,7 @@
 **介绍：该控件可用于制作Banner或App首次进入的引导页。**
  
 ### 效果图
-![img](https://s19.aconvert.com/convert/p3r68-cdx67/myd4p-b7o41.gif)  
+![img](https://github.com/weiwei00200/PagerIndicatorView/blob/master/gif/img.gif)  
 
 ### 使用方法
 
