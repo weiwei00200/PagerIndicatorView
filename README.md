@@ -1,6 +1,9 @@
 # PagerIndicatorView
 **介绍：该控件可用于制作Banner或App首次进入的引导页。**
  
+### 效果图
+![](https://s19.aconvert.com/convert/p3r68-cdx67/myd4p-b7o41.gif)  
+
 ### 使用方法
 
 ### 配置步骤1：
