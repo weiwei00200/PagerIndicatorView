@@ -11,6 +11,7 @@
         <attr name="indicatorMarginBottom" format="dimension"/>
         <attr name="selectedPosition" format="integer"/>
         <attr name="indicatorGravity" format="string"/>
+        <attr name="isLoop" format="boolean"/>
     </declare-styleable>
 
 </resources>

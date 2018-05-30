@@ -27,5 +27,6 @@
         app:indicatorGravity = "left"
         app:indicatorSize="6dp"
         app:isAutoSliding = "true"
+        app:isLoop = "true"
         app:selectedPosition = "0"/>
 </LinearLayout>

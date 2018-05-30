@@ -42,12 +42,16 @@ public class SlidingViewPagerView extends FrameLayout {
     private float mIndicatorMarginBottom = 20;//指示器marginBottom
     private int mCurrentSelectedPosition = 0;//当前显示的Position下标
     private String mIndicatorGravity = MIDDLE; // 指示器对齐方式
-
+    private boolean mIsLoop = false;//是否要循环滚动
 
     private ViewPager mViewPager;
     private ArrayList<ImageView> mImgList;
     private LinearLayout mLayoutIndicator;
     private Timer mCountDownTimer;
+    private List<String> mToUrlList = new ArrayList<>();
+    private boolean mIsClickImageListenerEffective = false;
+
+    private IPageClickListener mPageClickListener;
 
     public SlidingViewPagerView(@NonNull Context context) {
         super(context);
@@ -74,19 +78,16 @@ public class SlidingViewPagerView extends FrameLayout {
         mIsShowIndicator = typedArray.getBoolean(R.styleable.PagerIndicatorView_isShowIndicator, false);
         mIndicatorSpace = typedArray.getDimension(R.styleable.PagerIndicatorView_indicatorSpace, 10);
         mIndicatorSize = typedArray.getDimension(R.styleable.PagerIndicatorView_indicatorSize, 10);
-        mCurrentSelectedPosition = typedArray.getInteger(R.styleable.PagerIndicatorView_selectedPosition, 0);
+        mIsLoop = typedArray.getBoolean(R.styleable.PagerIndicatorView_isLoop, false);
+        mCurrentSelectedPosition = typedArray.getInteger(R.styleable.PagerIndicatorView_selectedPosition, mIsLoop ? 1 : 0) + (mIsLoop ? 1 : 0);
         mIndicatorMarginBottom = typedArray.getDimension(R.styleable.PagerIndicatorView_indicatorMarginBottom, 20);
         String gravityStr = typedArray.getString(R.styleable.PagerIndicatorView_indicatorGravity);
         if (!TextUtils.isEmpty(gravityStr)) {
             mIndicatorGravity = gravityStr.toLowerCase();
         }
-
-        if(mIsAutoSliding){
+        if (mIsAutoSliding) {
             startAutoSliding();
         }
-//        if(mSlidingSpeed != 0){
-//            setScrollSpeed(mSlidingSpeed);
-//        }
     }
 
     private void initView(Context context) {
@@ -112,14 +113,28 @@ public class SlidingViewPagerView extends FrameLayout {
 
             @Override
             public void onPageScrollStateChanged(int state) {
-
+                if (mIsLoop) {
+                    final int lastPosition = mImgList.size() - 1;
+                    if (state == ViewPager.SCROLL_STATE_IDLE) {//页面加载完成
+                        if (mViewPager.getCurrentItem() == lastPosition) {
+                            mViewPager.setCurrentItem(mCurrentSelectedPosition, false);
+                        } else if (mViewPager.getCurrentItem() == 0) {
+                            mViewPager.setCurrentItem(lastPosition - 1, false);
+                        }
+                    }
+                }
             }
         });
         mViewPager.setOnTouchListener(new OnTouchListener() {
+            boolean isClick = false;//是否是点击事件
+            float downX, downY;
+
             @Override
             public boolean onTouch(View v, MotionEvent event) {
                 switch (event.getAction()) {
                     case MotionEvent.ACTION_DOWN:
+                        downX = event.getX();
+                        downY = event.getY();
                         if (mIsAutoSliding) {
                             stopAutoSliding();
                         }
@@ -128,6 +143,12 @@ public class SlidingViewPagerView extends FrameLayout {
                         if (mIsAutoSliding) {
                             startAutoSliding();
                         }
+                        isClick = Math.abs(event.getX() - downX) < 5 && Math.abs(event.getY() - downY) < 5;
+                        if (isClick && mIsClickImageListenerEffective) {
+                            mPageClickListener.onClickPageImage(mToUrlList.get(mViewPager.getCurrentItem()));
+                        }
+                        downX = 0;
+                        downY = 0;
                         break;
                     default:
                         break;
@@ -138,9 +159,9 @@ public class SlidingViewPagerView extends FrameLayout {
         mViewPager.post(new Runnable() {
             @Override
             public void run() {
-                if(mSlidingSpeed != 0){
-                    setScrollSpeed(mSlidingSpeed);
-                }
+//                if (mSlidingSpeed != 0) {
+//                    setScrollSpeed(mSlidingSpeed);
+//                }
             }
         });
     }
@@ -148,6 +169,9 @@ public class SlidingViewPagerView extends FrameLayout {
     private void initIndicator(int pagerAmount) {
         mLayoutIndicator.setVisibility(mIsShowIndicator ? View.VISIBLE : View.GONE);
         if (mIsShowIndicator) {
+            if (mIsLoop) {
+                pagerAmount -= 2;
+            }
             RelativeLayout.LayoutParams containerLayoutParams = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
             containerLayoutParams.addRule(TextUtils.equals(mIndicatorGravity, LEFT) ? RelativeLayout.ALIGN_PARENT_LEFT : (TextUtils.equals(mIndicatorGravity, RIGHT) ? RelativeLayout.ALIGN_PARENT_RIGHT : RelativeLayout.CENTER_HORIZONTAL));
             containerLayoutParams.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM);
@@ -170,6 +194,7 @@ public class SlidingViewPagerView extends FrameLayout {
 
     public void setSelectedPosition(int position) {
         View childView = null;
+        position = position - (mIsLoop ? 1 : 0);
         for (int i = 0; i < mLayoutIndicator.getChildCount(); i++) {
             childView = mLayoutIndicator.getChildAt(i);
             childView.setSelected(position == i);
@@ -186,6 +211,11 @@ public class SlidingViewPagerView extends FrameLayout {
      */
     public SlidingViewPagerView setLocalImage(List<Integer> pagePicList, int loadingImgRes, int errorImgRes) {
         try {
+            if (mIsLoop) {
+                //需要循环滚动，加入首尾项
+                pagePicList.add(0, pagePicList.get(pagePicList.size() - 1));
+                pagePicList.add(pagePicList.get(1));
+            }
             mImgList = new ArrayList<>();
             ImageView img = null;
             ViewGroup.LayoutParams lp = new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
@@ -206,7 +236,7 @@ public class SlidingViewPagerView extends FrameLayout {
                             .into(img);
                 }
             }
-            initIndicator(pagePicList.size());
+            initIndicator(pagePicList.size() + (mIsLoop ? -2 : 0));
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -223,11 +253,28 @@ public class SlidingViewPagerView extends FrameLayout {
      * @return
      */
     public SlidingViewPagerView setUrlImage(List<String> urlList, int loadingImgRes, int errorImgRes) {
+        setUrlImage(urlList, null, loadingImgRes, errorImgRes, null);
+        return this;
+    }
+
+    public void setUrlImage(List<String> urlList, final List<String> toUrlList, int loadingImgRes, int errorImgRes, final IPageClickListener listener) {
         try {
+            if (mIsLoop) {
+                //需要循环滚动，加入首尾项
+                urlList.add(0, urlList.get(urlList.size() - 1));
+                urlList.add(urlList.get(1));
+                toUrlList.add(0, toUrlList.get(toUrlList.size() - 1));
+                toUrlList.add(toUrlList.get(1));
+            }
+            mToUrlList = toUrlList;
+            mIsClickImageListenerEffective = listener != null && null != toUrlList && toUrlList.size() == urlList.size();
+            mPageClickListener = listener;
             mImgList = new ArrayList<>();
             ImageView img = null;
             ViewGroup.LayoutParams lp = new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
-            for (String picUrl : urlList) {
+            //toUrlList和listener都设置了,并且toUrlList个数和图片个数相同，才有点击返回事件并返回url
+            for (int i = 0; i < urlList.size(); i++) {
+                String picUrl = urlList.get(i);
                 img = new ImageView(mContext);
                 img.setScaleType(ImageView.ScaleType.FIT_XY);
                 img.setLayoutParams(lp);
@@ -249,14 +296,14 @@ public class SlidingViewPagerView extends FrameLayout {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        return this;
     }
 
     /**
      * 设置滑动的速度
+     *
      * @param millisSeconds 毫秒
      */
-    private void setScrollSpeed(int millisSeconds){
+    private void setScrollSpeed(int millisSeconds) {
         try {
             Field field = ViewPager.class.getDeclaredField("mScroller");
             field.setAccessible(true);
@@ -267,6 +314,7 @@ public class SlidingViewPagerView extends FrameLayout {
             e.printStackTrace();
         }
     }
+
     private void show() {
         mViewPager.setAdapter(new PagerAdapter() {
             @Override
@@ -303,7 +351,7 @@ public class SlidingViewPagerView extends FrameLayout {
             public void handleMessage(Message msg) {
                 super.handleMessage(msg);
                 try {
-                    if(null == mContext || (mContext instanceof Activity && ((Activity)mContext).isFinishing())){
+                    if (null == mContext || (mContext instanceof Activity && ((Activity) mContext).isFinishing())) {
                         stopAutoSliding();
                         return;
                     }
