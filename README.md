@@ -77,15 +77,15 @@
 ### 控件参数说明：（全部参数可选设置）
 参数     | 说明
 -------- | ---
-isAutoSliding | true,false 是否自动滚动。
-slidingInterval | 滚动的间隔时间，单位：毫秒。
-slidingSpeed | 滚动到下一页这个动作所需时间，单位：毫秒。
-isShowIndicator | true,false 是否显示指示器。
-indicatorSpace | 每个指示器圆点之间的间隔 单位：dp
-indicatorSize|指示器圆点的大小 单位：dp
-indicatorMarginBottom | 指示器margin下方的距离 单位：dp
-selectedPosition | 显示那一页图片
-indicatorGravity|指示器在底部的显示位置 left，right，middle 
+isAutoSliding | true,false 是否自动滚动，默认false
+slidingInterval | 滚动的间隔时间，单位：秒，默认5s
+isLoop | true,false 是否循环滚动，默认false
+isShowIndicator | true,false 是否显示指示器，默认false
+indicatorSpace | 每个指示器圆点之间的间隔 单位：dp，默认10dp
+indicatorSize|指示器圆点的大小 单位：dp，默认10dp
+indicatorMarginBottom | 指示器margin下方的距离 单位：dp，默认20dp
+selectedPosition | 显示那一页图片，默认0
+indicatorGravity|指示器在底部的显示位置 left，right，middle ，默认middle
 
 ### 版本：
 版本号     | 备注
