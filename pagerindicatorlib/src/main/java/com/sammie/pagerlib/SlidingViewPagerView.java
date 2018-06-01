@@ -211,7 +211,7 @@ public class SlidingViewPagerView extends FrameLayout {
      */
     public SlidingViewPagerView setLocalImage(List<Integer> pagePicList, int loadingImgRes, int errorImgRes) {
         try {
-            if (mIsLoop) {
+            if (mIsLoop && pagePicList.size() > 1) {//大于1张图片才需要轮播
                 //需要循环滚动，加入首尾项
                 pagePicList.add(0, pagePicList.get(pagePicList.size() - 1));
                 pagePicList.add(pagePicList.get(1));
@@ -236,11 +236,14 @@ public class SlidingViewPagerView extends FrameLayout {
                             .into(img);
                 }
             }
-            initIndicator(pagePicList.size() + (mIsLoop ? -2 : 0));
+            if(pagePicList.size() > 1) {
+                //大于1张才需要初始化Indicator
+                initIndicator(pagePicList.size() + (mIsLoop ? -2 : 0));
+            }
+            show();
         } catch (Exception e) {
             e.printStackTrace();
         }
-        show();
         return this;
     }
 
@@ -259,7 +262,7 @@ public class SlidingViewPagerView extends FrameLayout {
 
     public void setUrlImage(List<String> urlList, final List<String> toUrlList, int loadingImgRes, int errorImgRes, final IPageClickListener listener) {
         try {
-            if (mIsLoop) {
+            if (mIsLoop && toUrlList.size() > 1) {//大于1张图片才需要轮播
                 //需要循环滚动，加入首尾项
                 urlList.add(0, urlList.get(urlList.size() - 1));
                 urlList.add(urlList.get(1));
@@ -291,7 +294,10 @@ public class SlidingViewPagerView extends FrameLayout {
                             .into(img);
                 }
             }
-            initIndicator(urlList.size());
+            if(urlList.size() > 1) {
+                //大于1张才需要初始化Indicator
+                initIndicator(urlList.size());
+            }
             show();
         } catch (Exception e) {
             e.printStackTrace();
