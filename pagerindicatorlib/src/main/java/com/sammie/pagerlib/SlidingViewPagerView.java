@@ -3,7 +3,6 @@ package com.sammie.pagerlib;
 import android.app.Activity;
 import android.content.Context;
 import android.content.res.TypedArray;
-import android.os.CountDownTimer;
 import android.os.Handler;
 import android.os.Message;
 import android.support.annotation.NonNull;
@@ -21,6 +20,8 @@ import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
+
+import com.squareup.picasso.Picasso;
 
 import java.lang.reflect.Field;
 import java.util.ArrayList;
@@ -85,9 +86,6 @@ public class SlidingViewPagerView extends FrameLayout {
         if (!TextUtils.isEmpty(gravityStr)) {
             mIndicatorGravity = gravityStr.toLowerCase();
         }
-        if (mIsAutoSliding) {
-            startAutoSliding();
-        }
     }
 
     private void initView(Context context) {
@@ -145,7 +143,7 @@ public class SlidingViewPagerView extends FrameLayout {
                         }
                         isClick = Math.abs(event.getX() - downX) < 5 && Math.abs(event.getY() - downY) < 5;
                         if (isClick && mIsClickImageListenerEffective) {
-                            mPageClickListener.onClickPageImage(mToUrlList.get(mViewPager.getCurrentItem()));
+                            mPageClickListener.onClickPageImage(mToUrlList.get(mViewPager.getCurrentItem()), mImgList.size() > 1 ? mViewPager.getCurrentItem() - 1 : mViewPager.getCurrentItem());
                         }
                         downX = 0;
                         downY = 0;
@@ -192,6 +190,14 @@ public class SlidingViewPagerView extends FrameLayout {
         }
     }
 
+    public void clearData() {
+        try {
+            mLayoutIndicator.removeAllViews();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
     public void setSelectedPosition(int position) {
         View childView = null;
         position = position - (mIsLoop ? 1 : 0);
@@ -205,16 +211,17 @@ public class SlidingViewPagerView extends FrameLayout {
      * 设置本地图片
      *
      * @param pagePicList
-     * @param loadingImgRes
-     * @param errorImgRes
      * @return
      */
-    public SlidingViewPagerView setLocalImage(List<Integer> pagePicList, int loadingImgRes, int errorImgRes) {
+    public SlidingViewPagerView setLocalImage(List<Integer> pagePicList) {
         try {
-            if (mIsLoop && pagePicList.size() > 1) {//大于1张图片才需要轮播
+            if (mIsLoop && pagePicList.size() > 1) {//大于1张图片才需要轮播,才开启定时轮播
                 //需要循环滚动，加入首尾项
                 pagePicList.add(0, pagePicList.get(pagePicList.size() - 1));
                 pagePicList.add(pagePicList.get(1));
+                if (mIsAutoSliding) {
+                    startAutoSliding();
+                }
             }
             mImgList = new ArrayList<>();
             ImageView img = null;
@@ -224,19 +231,10 @@ public class SlidingViewPagerView extends FrameLayout {
                 img.setScaleType(ImageView.ScaleType.FIT_XY);
                 img.setLayoutParams(lp);
                 mImgList.add(img);
-                if (loadingImgRes != -1 && errorImgRes != -1) {
-                    GlideApp.with(mContext)
-                            .load(picRes)
-                            .placeholder(loadingImgRes)
-                            .error(errorImgRes)
-                            .into(img);
-                } else {
-                    GlideApp.with(mContext)
-                            .load(picRes)
-                            .into(img);
-                }
+                Picasso.get().load(picRes).into(img);
+//                ImageLoader.loadImageByDefault(img, img, picRes);
             }
-            if(pagePicList.size() > 1) {
+            if (pagePicList.size() > 1) {
                 //大于1张才需要初始化Indicator
                 initIndicator(pagePicList.size() + (mIsLoop ? -2 : 0));
             }
@@ -251,23 +249,24 @@ public class SlidingViewPagerView extends FrameLayout {
      * 设置网络图片
      *
      * @param urlList
-     * @param loadingImgRes
-     * @param errorImgRes
      * @return
      */
-    public SlidingViewPagerView setUrlImage(List<String> urlList, int loadingImgRes, int errorImgRes) {
-        setUrlImage(urlList, null, loadingImgRes, errorImgRes, null);
+    public SlidingViewPagerView setUrlImage(List<String> urlList) {
+        setUrlImage(urlList, null, null);
         return this;
     }
 
-    public void setUrlImage(List<String> urlList, final List<String> toUrlList, int loadingImgRes, int errorImgRes, final IPageClickListener listener) {
+    public void setUrlImage(List<String> urlList, final List<String> toUrlList, final IPageClickListener listener) {
         try {
-            if (mIsLoop && toUrlList.size() > 1) {//大于1张图片才需要轮播
+            if (mIsLoop && toUrlList.size() > 1) {//大于1张图片才需要轮播,才开启定时轮播
                 //需要循环滚动，加入首尾项
                 urlList.add(0, urlList.get(urlList.size() - 1));
                 urlList.add(urlList.get(1));
                 toUrlList.add(0, toUrlList.get(toUrlList.size() - 1));
                 toUrlList.add(toUrlList.get(1));
+                if (mIsAutoSliding) {
+                    startAutoSliding();
+                }
             }
             mToUrlList = toUrlList;
             mIsClickImageListenerEffective = listener != null && null != toUrlList && toUrlList.size() == urlList.size();
@@ -282,19 +281,9 @@ public class SlidingViewPagerView extends FrameLayout {
                 img.setScaleType(ImageView.ScaleType.FIT_XY);
                 img.setLayoutParams(lp);
                 mImgList.add(img);
-                if (loadingImgRes != -1 && errorImgRes != -1) {
-                    GlideApp.with(mContext)
-                            .load(picUrl)
-                            .placeholder(loadingImgRes)
-                            .error(errorImgRes)
-                            .into(img);
-                } else {
-                    GlideApp.with(mContext)
-                            .load(picUrl)
-                            .into(img);
-                }
+                Picasso.get().load(picUrl).into(img);
             }
-            if(urlList.size() > 1) {
+            if (urlList.size() > 1) {
                 //大于1张才需要初始化Indicator
                 initIndicator(urlList.size());
             }

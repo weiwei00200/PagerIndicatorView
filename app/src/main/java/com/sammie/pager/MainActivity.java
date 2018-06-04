@@ -22,7 +22,7 @@ public class MainActivity extends AppCompatActivity {
         localImgList.add(R.mipmap.pic_02);
         localImgList.add(R.mipmap.pic_03);
         SlidingViewPagerView localViewPagerView = findViewById(R.id.id_local_sliding_view_pager_view);
-        localViewPagerView.setLocalImage(localImgList, R.mipmap.ic_launcher, R.mipmap.ic_launcher);
+        localViewPagerView.setLocalImage(localImgList);
 
         //URL
         ArrayList<String> urlImgList = new ArrayList<>();
@@ -41,9 +41,9 @@ public class MainActivity extends AppCompatActivity {
         //普通显示URL图片
 //        remoteViewPagerView.setUrlImage(urlImgList, R.mipmap.ic_launcher, R.mipmap.ic_launcher);
         //可点击的URL图片
-        remoteViewPagerView.setUrlImage(urlImgList, toUrlList, R.mipmap.ic_launcher, R.mipmap.ic_launcher, new IPageClickListener() {
+        remoteViewPagerView.setUrlImage(urlImgList, toUrlList, new IPageClickListener() {
             @Override
-            public void onClickPageImage(String url) {
+            public void onClickPageImage(String url, int position) {
                 //拿到 URL 做跳转动作
             }
         });
