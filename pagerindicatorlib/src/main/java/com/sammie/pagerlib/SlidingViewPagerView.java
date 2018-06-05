@@ -340,6 +340,7 @@ public class SlidingViewPagerView extends FrameLayout {
      * 开始自动滚动
      */
     private void startAutoSliding() {
+        stopAutoSliding();
         mCountDownTimer = new Timer();
         final Handler handler = new Handler() {
             @Override
