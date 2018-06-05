@@ -53,7 +53,7 @@
 	//可点击的URL图片
 	remoteViewPagerView.setUrlImage(urlImgList, toUrlList, R.mipmap.ic_launcher, R.mipmap.ic_launcher, new IPageClickListener() {
 	    @Override
-	    public void onClickPageImage(String url) {
+	    public void onClickPageImage(String url, int position) {
 		//拿到 URL 做跳转动作
 	    }
 	});
